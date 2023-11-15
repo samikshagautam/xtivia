@@ -1,5 +1,6 @@
 package main.java.com.xtivia.assessment;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -57,13 +58,13 @@ public class FileParser {
         List<String> lines = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
-        String line = reader.readLine();
+        String line = BoundedLineReader.readLine(reader, 5_000_000);
         while (line != null) {
             // remove any leading and trailing whitespaces
             line = line.trim();
             lines.add(line);
             // read next line
-            line = reader.readLine();
+            line = BoundedLineReader.readLine(reader, 5_000_000);
         }
         reader.close();
         return lines;
